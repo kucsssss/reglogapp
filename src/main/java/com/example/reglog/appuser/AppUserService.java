@@ -34,7 +34,13 @@ public class AppUserService implements UserDetailsService {
             throw new IllegalStateException("email already taken");
         }
 
-        bCryptPasswordEncoder.encode(appUser.getPassword());
-        return "";
+        String encodedPassword = bCryptPasswordEncoder
+                .encode(appUser.getPassword());
+
+        appUserRepository.save(appUser);
+
+        appUser.setPassword(encodedPassword);
+
+        return "it works";
     }
 }
